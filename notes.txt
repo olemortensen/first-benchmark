@@ -53,6 +53,22 @@ ng test --browsers ChromeHeadless	# unit test with headless Chrome
   outputs: ['deleteRequest'],
 })
 
+=== DOCKER ===
+
+docker run hello-world  # smoke test of docker installation
+docker info # info about docker containers, memory, etc
+docker image ls # list docker images
+
+Dockerfile # defines the environment for a container
+docker build -t <image-name> .  # build docker image
+
+stack => services => container
+docker stack deploy -c docker-compose.yml <app-name>
+
+A /swarm/ is a group of machines running Docker and joined into a cluster. Docker commands are executed by a
+/swarm manager/.
+
+
 === REACTIVE PROGRAMMING ===
 https://www.oreilly.com/ideas/reactive-programming-vs-reactive-systems
 

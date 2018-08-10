@@ -53,6 +53,68 @@ ng test --browsers ChromeHeadless	# unit test with headless Chrome
   outputs: ['deleteRequest'],
 })
 
+=== HIBERNATE ===
+http://docs.jboss.org/hibernate/orm/5.3/quickstart/html_single/#tutorial_annotations
+
+@Entity
+@Table(name = "events")
+public class Event {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "envent_date")
+  public Date getDate() {
+    return date;
+  }
+}
+
+
+// basic JPA save (jpa uses persist, hibernate uses save)
+entityManager = sessionFactory.createEntityManager();
+entityManager.getTransaction().begin();
+List<Event> result = entityManager.createQuery( "from Event", Event.class ).getResultList();
+for ( Event event : result ) {
+	System.out.println( "Event (" + event.getDate() + ") : " + event.getTitle() );
+}
+entityManager.getTransaction().commit();
+entityManager.close();
+
+// Spring JPA interface
+import org.springframework.data.repository.CrudRepository;
+public interface EventRepository extends CrudRepository<Event, Long> {
+  List<Event> findByDate(Date date);
+}
+
+// Enable JPA transactions
+@Configuration
+@EnableTransactionManagement
+public class PersistenceJPAConfig{
+
+   @Bean
+   public LocalContainerEntityManagerFactoryBean
+     entityManagerFactoryBean(){
+      //...
+   }
+
+   @Bean
+   public PlatformTransactionManager transactionManager(){
+      JpaTransactionManager transactionManager
+        = new JpaTransactionManager();
+      transactionManager.setEntityManagerFactory(
+        entityManagerFactoryBean().getObject() );
+      return transactionManager;
+   }
+}
+
+// Transactional annotation
+@Service
+@Transactional
+public class FooService {
+  ...
+}
+
 === DOCKER ===
 
 docker run hello-world  # smoke test of docker installation
@@ -78,7 +140,7 @@ Reactive Manifesto
 * Elastic. The system stays responsive under varying loads be decreasing or increasing
   resources. Implies design wih no contention points or central bottlenecks, so components
   can be sharded or replicated.
-* Message Driven. Location transparance, loose coupling, isolation, appplying back-pressure.
+* Message Driven. Location transparence, loose coupling, isolation, appplying back-pressure.
 
 Functional Reactive Programming = map, fold, reduce, and so on, on a stream of data
 

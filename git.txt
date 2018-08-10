@@ -1,0 +1,95 @@
+=== GIT ===
+git config --global alias.st 'status -s'
+
+git stash -u	              # also stash untracked files
+git stash branch testchanges  # create branch from stashed changes
+
+git reset --soft   # reset HEAD only
+git reset          # reset HEAD and Index
+git reset --hard   # reset HEAD, Index, and working file
+
+git blame
+git blame -C  # where did the lines originally come from
+
+
+git bisect start	# start bisection
+git bisect bad		# mark current as bad
+git bisect good v1.0    # mark this point in history as good
+... git bad / git good	# run test and mark as bad or good
+^                    |
++-----repeat---------+
+git bisect reset	# end bisection
+
+git submodule add https://......
+
+=== ANGULAR ===
+
+ng install -g @angular/cli	# install Angular
+ng new myproject		# generate a new project
+ng generate module myapp-routing --flat --module=app	# generate @NgModule routing module
+ng generate component my-component	# generate a @Component w/ files ts, css, html, test -- html tag is <my-component>
+ng generate service my-service00		# generate an @Injectable service
+ng install @angular/material @angular/cdk	# install and save as dependency
+
+ng serve -o	# launch the application w/ -o to open a browser
+ng test 	# unit test
+ng test --browsers ChromeHeadless	# unit test with headless Chrome
+
+<li *ngFor = "let myvar of myarray">	# repeat w/ {{myvar}} in the loop
+<div *ngIf = "myvar">only if true</div>	# conditional
+
+{{myvar + getVal()}}		# variable interpolation and javascript (read)
+[target] = "expression"		# set property (read) (DOM property, not element attribute)
+<button [style.color]="isSpecial ? 'red': 'green'">Red</button>	# set style property (read)
+<button (click) = "save()">save</button>	# () for event binding (write)
+<input [(ngModel)] = "myvar.myprop" />		# [()] for read/write binding
+
+# decorators for properties that other components are allowed to bind to
+@Input() hero: Hero;	# 
+@Output() deleteRequest = new EventEmitter<Hero>;
+# alternative for the above
+@Component({
+  inputs: ['hero'],
+  outputs: ['deleteRequest'],
+})
+
+=== REACTIVE PROGRAMMING ===
+https://www.oreilly.com/ideas/reactive-programming-vs-reactive-systems
+
+Reactive Manifesto
+* Responsive. Provide rapid and consistent response times w/ an upper bound.
+* Resilient. The client of a component is not burdened with handling its failures.
+* Elastic. The system stays responsive under varying loads be decreasing or increasing
+  resources. Implies design wih no contention points or central bottlenecks, so components
+  can be sharded or replicated.
+* Message Driven. Location transparance, loose coupling, isolation, appplying back-pressure.
+
+Functional Reactive Programming = map, fold, reduce, and so on, on a stream of data
+
+Systems must be /responsive/. Responsiveness must be maintained under failure 
+(resilience) and under load (elasticity). To make that happen, we make the systems
+/message-driven/, and we call them /reactive systems/.
+
+The foundation for a reactive system is /message-passing/, which creates a temporal
+boundary between components that allows them to be decoupled in /time/ -- this allows
+for concurrency -- and /space/ -- which allows for distribution and mobility.
+
+resilience = self-heal (being able to fully recover from failure)
+elasticity = responsiveness under load (throughput of the system scales to meet demand),
+             should allow intervention-less scaling.
+location transparancy == the ability to scale the system in the same way across all
+dimensions (CPU, servers, data centers).
+
+* Isolation of failures offer bulkheads between components, preventing failures to cascade.
+* Supervisor hierarchies offer multiple levels of defenses paired with self-healing.
+* Message-passing and location transparency allow for components to be taken offline and
+  replaced or rerouted.
+* Replication reduces the risk of data loss and lessens the impact of failure.
+* Elasticity allows for conservation of resources as usage fluctuates.
+
+=== JDK 9 Flow API ===
+https://community.oracle.com/docs/DOC-1006738
+
+The Flow API in JDK 9 corresponds to the Reactive Streams Specification. The subscriber interface
+has onSubscribe, onNext, onError (unrecoverable), onComplete.
+

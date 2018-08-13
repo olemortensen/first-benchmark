@@ -118,6 +118,7 @@ public class FooService {
 === DOCKER ===
 docker pull mysql # pull the latest mysql image
 sudo docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest # run latest mysql
+docker container ls	# list running containers
 
 docker run hello-world  # smoke test of docker installation
 docker info # info about docker containers, memory, etc

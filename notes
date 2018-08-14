@@ -2,7 +2,9 @@
 git config --global alias.st 'status -s'
 
 git stash -u	              # also stash untracked files
-git stash branch testchanges  # create branch from stashed changes
+git stash branch mynewbranch  # create branch from stashed changes
+
+git log --oneline --decorate --graph	# show log with graph and tags
 
 git reset --soft   # reset HEAD only
 git reset          # reset HEAD and Index

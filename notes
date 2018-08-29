@@ -118,6 +118,15 @@ public class FooService {
   ...
 }
 
+// Spring Boot
+@EnableTransactionManagement is optional in Spring boot, provided that spring-data* or spring-tx are found in classpath.
+Spring boot adds a spring-boot-autoconfigure.jar in the classpath. Go to the META-INF's spring.factories file and you can
+see org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration entry there. This initializes the 
+transaction auto configuration.
+
+// application.properties setting to log transactions 
+logging.level.org.springframework.transaction.interceptor=TRACE
+
 === DOCKER ===
 docker pull mysql # pull the latest mysql image
 sudo docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest # run latest mysql

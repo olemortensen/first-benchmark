@@ -37,6 +37,7 @@ ng install @angular/material @angular/cdk	# install and save as dependency
 ng serve -o	# launch the application w/ -o to open a browser
 ng test 	# unit test
 ng test --browsers ChromeHeadless	# unit test with headless Chrome
+ng test --code-coverage			# unit test with code coverage reporting
 
 <li *ngFor = "let myvar of myarray">	# repeat w/ {{myvar}} in the loop
 <div *ngIf = "myvar">only if true</div>	# conditional

@@ -3,7 +3,6 @@ package com.gmail.zzmortensen;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.infra.Blackhole;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,7 +21,8 @@ public class MyBenchmark {
     @State(Scope.Benchmark)
     public static class MyState {
         final private static int MAX = 1_000_000;
-        public static List<Integer> list = new ArrayList<>(MAX);
+        static List<Integer> list = new ArrayList<>(MAX);
+
         static {
             for (int i = 0; i < MAX; i++) {
                 list.add(i);
@@ -31,35 +31,35 @@ public class MyBenchmark {
     }
 
     @Benchmark
-    public void testLoopArray(Blackhole blackhole) {
+    public List<Integer> testLoopArray() {
         List<Integer> result = new ArrayList<>(MyState.MAX);
         for (Integer i : MyState.list) {
             if (i % 3 == 0) {
                 result.add(i);
             }
         }
-        blackhole.consume(result);
+        return result;
     }
 
     @Benchmark
-    public void testLoopLink(Blackhole blackhole) {
+    public List<Integer> testLoopLink() {
         List<Integer> result = new LinkedList<>();
         for (Integer i : MyState.list) {
             if (i % 3 == 0) {
                 result.add(i);
             }
         }
-        blackhole.consume(result);
+        return result;
     }
 
     @Benchmark
-    public void testStream(Blackhole blackhole) {
-        blackhole.consume(MyState.list.stream().filter(e -> e % 3 == 0).collect(Collectors.toList()));
+    public List<Integer> testStream() {
+        return MyState.list.stream().filter(e -> e % 3 == 0).collect(Collectors.toList());
     }
 
     @Benchmark
-    public void testStreamParallel(Blackhole blackhole) {
-        blackhole.consume(MyState.list.parallelStream().filter(e -> e % 3 == 0).collect(Collectors.toList()));
+    public List<Integer> testStreamParallel() {
+        return MyState.list.parallelStream().filter(e -> e % 3 == 0).collect(Collectors.toList());
     }
 
 }

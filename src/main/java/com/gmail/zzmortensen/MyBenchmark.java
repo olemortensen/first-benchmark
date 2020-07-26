@@ -5,11 +5,14 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /*
     Benchmark                        Mode  Cnt   Score   Error  Units
@@ -69,13 +72,16 @@ public class MyBenchmark {
         MyBenchmark.testModulus  thrpt   25   57031120,435 ±  997970,505  ops/s
         MyBenchmark.testBitAnd   thrpt   25  153153904,696 ± 7351160,291  ops/s
      */
-    @Benchmark
-    public boolean testModulus() {
-        return ThreadLocalRandom.current().nextInt() % 2 == 0;
-    }
+//    @Benchmark
+//    public boolean testModulus() {
+//        return ThreadLocalRandom.current().nextInt() % 2 == 0;
+//    }
+//
+//    @Benchmark
+//    public boolean testBitAnd() {
+//        return (ThreadLocalRandom.current().nextInt() & 1) == 0;
+//    }
 
-    @Benchmark
-    public boolean testBitAnd() {
-        return (ThreadLocalRandom.current().nextInt() & 1) == 0;
-    }
+
+
 }
